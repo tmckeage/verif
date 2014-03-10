@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+</head>
+<body>
+    <p>Adressee: <input id="addresse"></input></p>
+    <p>Street Line 1: <input id="street1"></input></p>
+    <p>Street Line 2: <input id="street2"></input></p>
+    <p>City: <input id="city"></input></p>
+    <p>State: <input id="state"></input></p>
+    <p>Zip: <input id="zip"></input></p>
+    <button id="submit">Submit</button>
+    <p></p>
+    <p id='ret1'></p>
+    <p id='ll'></p>
+    <script type="text/javascript" >
+ 
+        $('#submit').on('click', sendAjax);
+
+        function sendAjax() {
+          var package = {};
+          package.addressee = $('#addresse').val();
+          package.street = $('#street1').val();
+          package.street2 = $('#street2').val();
+          package.city = $('#city').val();
+          package.state = $('#state').val();
+          package.zipcode = $('#zip').val();
+          $.ajax({ 
+            url: "/addy/sAddress", 
+            type: 'POST', 
+            dataType: 'json', 
+            data: JSON.stringify(package),
+            contentType: 'application/json',
+            mimeType: 'application/json',
+            success: function(data) { 
+            	$('#ret1').val('');
+            	$('#ll').val('');
+            	if(data.passed){
+            		$('#ret1').text(data.deliveryLine1);
+            		$('#ll').text(data.lastLine);
+            	} else {
+            		$('#ret1').text('Address Failed to Verify! Please Check and Try Again.');
+            	}
+            },
+            error:function(data,status,er) { 
+              alert("An Error Has Occured");
+            }
+          });
+        }
+</script>
+</body>
+</html>
