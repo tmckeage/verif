@@ -36,8 +36,8 @@
             contentType: 'application/json',
             mimeType: 'application/json',
             success: function(data) { 
-            	$('#ret1').val('');
-            	$('#ll').val('');
+            	$('#ret1').text('');
+            	$('#ll').text('');
             	if(data.passed){
             		$('#ret1').text(data.deliveryLine1);
             		$('#ll').text(data.lastLine);
